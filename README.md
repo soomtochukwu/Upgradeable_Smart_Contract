@@ -8,3 +8,4 @@ Try running the following tasks:
 ```shell
 npx hardhat deploy --network sepolia
 ```
+After running the above task, use the respective links to interact with the contracts.
