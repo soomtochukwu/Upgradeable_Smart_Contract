@@ -1,0 +1,152 @@
+{
+  "address": "0x08f6A18A817bc3ba05185C7373be83826F103837",
+  "abi": [
+    {
+      "inputs": [],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [],
+      "name": "name",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_value",
+          "type": "uint256"
+        }
+      ],
+      "name": "setBalance",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "symbol",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "usersBalance",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "viewAdmin",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0x8f7f04930ee6930bcfdf46927a3cf305844ab88907f039b261dd23c8364dd5f7",
+  "receipt": {
+    "to": null,
+    "from": "0x49f2451AbEe35B261bB01f9d0CDC49f8f8df6E3f",
+    "contractAddress": "0x08f6A18A817bc3ba05185C7373be83826F103837",
+    "transactionIndex": 7,
+    "gasUsed": "332953",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0x2b629d8084ba0ac79d66e6a0be847fac193a023bd94cc630f964088d3b89c3b8",
+    "transactionHash": "0x8f7f04930ee6930bcfdf46927a3cf305844ab88907f039b261dd23c8364dd5f7",
+    "logs": [],
+    "blockNumber": 4627123,
+    "cumulativeGasUsed": "2043297",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [],
+  "numDeployments": 2,
+  "solcInputHash": "676f78ab925f8a53406fbbd75adde43d",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.19+commit.7dd6d404\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[],\"name\":\"name\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_value\",\"type\":\"uint256\"}],\"name\":\"setBalance\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"symbol\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"usersBalance\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"viewAdmin\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/upgradableSmartContract.sol\":\"implementation_contract\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"contracts/upgradableSmartContract.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.18;\\n\\n// freeContract\\ncontract implementation_contract {\\n    address admin;\\n    mapping(address => uint256) public usersBalance;\\n\\n    constructor() {\\n        admin = msg.sender;\\n    }\\n\\n    function setBalance(uint _value) public {\\n        usersBalance[msg.sender] += _value;\\n    }\\n\\n    function viewAdmin() public view returns (address) {\\n        return admin;\\n    }\\n\\n    function name() public view virtual returns (string memory) {\\n        return \\\"implementation_contract\\\";\\n    }\\n\\n    function symbol() public view virtual returns (string memory) {\\n        return \\\"impl\\\";\\n    }\\n}\\n\\n// contract proxyToken\\ncontract proxyContract {\\n    address public admin;\\n    mapping(address => uint256) public usersBalance;\\n    address public implContract;\\n\\n    constructor(address _implContract) {\\n        require(_implContract != address(0), \\\"INVALID IMPLEMENTATION ADDRESS\\\");\\n        admin = msg.sender;\\n        implContract = _implContract;\\n    }\\n\\n    modifier onlyOwner() {\\n        require(msg.sender == admin, \\\"NOT A VAID CALLER\\\");\\n        _;\\n    }\\n\\n    function setBalance(uint256 _value) public {\\n        (bool success, ) = implContract.delegatecall(\\n            abi.encodeWithSignature(\\\"setBalance(uint256)\\\", _value)\\n        );\\n        require(success, \\\"FUNCTION CALL FAILED\\\");\\n    }\\n\\n    function upgradeContract(address _newImpl) external onlyOwner {\\n        require(_newImpl != address(0), \\\"INVALID ADDRESS\\\");\\n        implContract = _newImpl;\\n    }\\n\\n    function name() public view virtual returns (string memory) {\\n        return \\\"proxyContract\\\";\\n    }\\n\\n    function symbol() public view virtual returns (string memory) {\\n        return \\\"PC\\\";\\n    }\\n}\\n\\n// contract paidContract\\ncontract upgraded_implementation_contract {\\n    address public admin;\\n    mapping(address => uint256) public usersBalance;\\n\\n    constructor() {\\n        admin = msg.sender;\\n    }\\n\\n    function setBalance(uint _value) public {\\n        uint ninetyPercent = (_value * 90) / 100;\\n        usersBalance[msg.sender] += ninetyPercent;\\n        usersBalance[admin] += _value - ninetyPercent;\\n    }\\n\\n    function name() public view virtual returns (string memory) {\\n        return \\\"upgraded_implementation_contract\\\";\\n    }\\n\\n    function symbol() public view virtual returns (string memory) {\\n        return \\\"uImpl\\\";\\n    }\\n}\\n\",\"keccak256\":\"0xd998adef8f724224fdc573f985e3c11eba5ad9e360ff706eb5eff29aaf64aa44\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b50336000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055506104a8806100606000396000f3fe608060405234801561001057600080fd5b50600436106100575760003560e01c806306fdde031461005c578063583243351461007a57806395d89b41146100aa5780639910ed9a146100c8578063fb1669ca146100e6575b600080fd5b610064610102565b60405161007191906102a6565b60405180910390f35b610094600480360381019061008f919061032b565b61013f565b6040516100a19190610371565b60405180910390f35b6100b2610157565b6040516100bf91906102a6565b60405180910390f35b6100d0610194565b6040516100dd919061039b565b60405180910390f35b61010060048036038101906100fb91906103e2565b6101bd565b005b60606040518060400160405280601781526020017f696d706c656d656e746174696f6e5f636f6e7472616374000000000000000000815250905090565b60016020528060005260406000206000915090505481565b60606040518060400160405280600481526020017f696d706c00000000000000000000000000000000000000000000000000000000815250905090565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16905090565b80600160003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600082825461020c919061043e565b9250508190555050565b600081519050919050565b600082825260208201905092915050565b60005b83811015610250578082015181840152602081019050610235565b60008484015250505050565b6000601f19601f8301169050919050565b600061027882610216565b6102828185610221565b9350610292818560208601610232565b61029b8161025c565b840191505092915050565b600060208201905081810360008301526102c0818461026d565b905092915050565b600080fd5b600073ffffffffffffffffffffffffffffffffffffffff82169050919050565b60006102f8826102cd565b9050919050565b610308816102ed565b811461031357600080fd5b50565b600081359050610325816102ff565b92915050565b600060208284031215610341576103406102c8565b5b600061034f84828501610316565b91505092915050565b6000819050919050565b61036b81610358565b82525050565b60006020820190506103866000830184610362565b92915050565b610395816102ed565b82525050565b60006020820190506103b0600083018461038c565b92915050565b6103bf81610358565b81146103ca57600080fd5b50565b6000813590506103dc816103b6565b92915050565b6000602082840312156103f8576103f76102c8565b5b6000610406848285016103cd565b91505092915050565b7f4e487b7100000000000000000000000000000000000000000000000000000000600052601160045260246000fd5b600061044982610358565b915061045483610358565b925082820190508082111561046c5761046b61040f565b5b9291505056fea2646970667358221220f722803c89972cc633b063ed57c21ecd8545d2556666bed0a27e55cb25e0947f64736f6c63430008130033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100575760003560e01c806306fdde031461005c578063583243351461007a57806395d89b41146100aa5780639910ed9a146100c8578063fb1669ca146100e6575b600080fd5b610064610102565b60405161007191906102a6565b60405180910390f35b610094600480360381019061008f919061032b565b61013f565b6040516100a19190610371565b60405180910390f35b6100b2610157565b6040516100bf91906102a6565b60405180910390f35b6100d0610194565b6040516100dd919061039b565b60405180910390f35b61010060048036038101906100fb91906103e2565b6101bd565b005b60606040518060400160405280601781526020017f696d706c656d656e746174696f6e5f636f6e7472616374000000000000000000815250905090565b60016020528060005260406000206000915090505481565b60606040518060400160405280600481526020017f696d706c00000000000000000000000000000000000000000000000000000000815250905090565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16905090565b80600160003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600082825461020c919061043e565b9250508190555050565b600081519050919050565b600082825260208201905092915050565b60005b83811015610250578082015181840152602081019050610235565b60008484015250505050565b6000601f19601f8301169050919050565b600061027882610216565b6102828185610221565b9350610292818560208601610232565b61029b8161025c565b840191505092915050565b600060208201905081810360008301526102c0818461026d565b905092915050565b600080fd5b600073ffffffffffffffffffffffffffffffffffffffff82169050919050565b60006102f8826102cd565b9050919050565b610308816102ed565b811461031357600080fd5b50565b600081359050610325816102ff565b92915050565b600060208284031215610341576103406102c8565b5b600061034f84828501610316565b91505092915050565b6000819050919050565b61036b81610358565b82525050565b60006020820190506103866000830184610362565b92915050565b610395816102ed565b82525050565b60006020820190506103b0600083018461038c565b92915050565b6103bf81610358565b81146103ca57600080fd5b50565b6000813590506103dc816103b6565b92915050565b6000602082840312156103f8576103f76102c8565b5b6000610406848285016103cd565b91505092915050565b7f4e487b7100000000000000000000000000000000000000000000000000000000600052601160045260246000fd5b600061044982610358565b915061045483610358565b925082820190508082111561046c5761046b61040f565b5b9291505056fea2646970667358221220f722803c89972cc633b063ed57c21ecd8545d2556666bed0a27e55cb25e0947f64736f6c63430008130033",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 3,
+        "contract": "contracts/upgradableSmartContract.sol:implementation_contract",
+        "label": "admin",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_address"
+      },
+      {
+        "astId": 7,
+        "contract": "contracts/upgradableSmartContract.sol:implementation_contract",
+        "label": "usersBalance",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_mapping(t_address,t_uint256)"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_mapping(t_address,t_uint256)": {
+        "encoding": "mapping",
+        "key": "t_address",
+        "label": "mapping(address => uint256)",
+        "numberOfBytes": "32",
+        "value": "t_uint256"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      }
+    }
+  }
+}
