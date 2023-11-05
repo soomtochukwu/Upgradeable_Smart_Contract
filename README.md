@@ -8,6 +8,9 @@ The deploy scripts also demonstrates the deployment and verification of multiple
 Try running the following tasks:
 
 ```shell
+npm i
+```
+```shell
 npx hardhat deploy --network sepolia
 ```
 After running the above task, use the respective links to interact with the contracts.
