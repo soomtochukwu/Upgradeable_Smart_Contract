@@ -40,7 +40,7 @@ contract proxyContract {
     }
 
     modifier onlyOwner() {
-        require(msg.sender == admin, "NOT A VAID CALLER");
+        require(msg.sender == admin, "NOT A VALID CALLER");
         _;
     }
 
